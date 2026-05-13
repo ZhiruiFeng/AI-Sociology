@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  .dark body {
+    @apply bg-night text-neutral-200;
+  }
+
+  ::selection {
+    @apply bg-accent text-white;
+  }
+
+  /* Chinese typography niceties */
+  .prose p, .prose li {
+    line-height: 1.85;
+  }
+  .prose :is(p, li) > code {
+    font-size: 0.86em;
+  }
+  .prose :where(h2):not(:where([class~="not-prose"] *)) {
+    margin-top: 2.5em;
+  }
+  .prose :where(h3):not(:where([class~="not-prose"] *)) {
+    margin-top: 1.8em;
+  }
+  .prose hr {
+    @apply my-12 border-neutral-200 dark:border-neutral-800;
+  }
+}
+
+@layer utilities {
+  .grain {
+    position: relative;
+  }
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  .scroll-shadow {
+    background:
+      linear-gradient(var(--paper) 30%, rgba(255, 255, 255, 0)) center top,
+      linear-gradient(rgba(255, 255, 255, 0), var(--paper) 70%) center bottom,
+      radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.08), transparent) center top,
+      radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.08), transparent) center bottom;
+    background-repeat: no-repeat;
+    background-size: 100% 36px, 100% 36px, 100% 12px, 100% 12px;
+    background-attachment: local, local, scroll, scroll;
+  }
+}
+
+/* TOC active link */
+.toc-active {
+  @apply text-accent dark:text-accent-muted border-accent dark:border-accent-muted;
+}
+
+/* Heading anchor styles */
+.prose .anchor {
+  @apply text-neutral-400 dark:text-neutral-600 opacity-0 transition-opacity ml-2 no-underline border-b-0;
+  font-weight: 300;
+}
+.prose h2:hover .anchor,
+.prose h3:hover .anchor,
+.prose h4:hover .anchor {
+  @apply opacity-100;
+}
+
+/* Tables */
+.prose table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.prose thead {
+  @apply bg-neutral-50 dark:bg-neutral-900;
+}
+.prose th, .prose td {
+  padding: 0.5em 0.9em;
+}
+
+/* Code blocks - simple but readable */
+.prose pre {
+  @apply bg-neutral-900 dark:bg-black text-neutral-100 rounded-md overflow-x-auto;
+  padding: 1em 1.2em;
+  line-height: 1.6;
+  font-size: 0.86em;
+}
+.prose pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  color: inherit;
+  font-weight: 400;
+}
